@@ -1,39 +1,43 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { SplashScreen, Stack } from 'expo-router';
+import { Provider } from 'react-redux';
+import * as Crypto from 'expo-crypto';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import '../styles/global.css';
+import store from '../redux';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+const RootLayout = () => {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (loaded) {
+    setTimeout(() => {
       SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+      setIsLoading(false);
+      if (typeof global.crypto === 'undefined') {
+        global.crypto = {
+          //@ts-ignore
+          getRandomValues: (buffer: Uint8Array) => {
+            return Crypto.getRandomBytesAsync(buffer.length);
+          },
+        };
+      }
+    }, 2000);
+  }, []);
 
-  if (!loaded) {
-    return null;
-  }
+  if (isLoading) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <Provider store={store}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="loan-form/index" options={{ headerShown: false }} />
+        <Stack.Screen name="loan-form/loan-result" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    </Provider>
   );
-}
+};
+
+export default RootLayout;
