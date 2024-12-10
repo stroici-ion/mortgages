@@ -1,50 +1,43 @@
-# Welcome to your Expo app 👋
+# Mortgages - Loan Form Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to the **Mortgages** repository! This project is a loan form application where users can input mortgage-related data, which is processed and submitted to the server.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Multi-step Loan Form**: The form consists of multiple steps, each focusing on specific details of a loan.
+- **Real-time Data Submission**: Data is submitted to the backend as the user progresses through the form.
+- **Address Auto-completion**: Integration with Google Maps API for address search and selection.
+- **Form Validation**: Includes various validation checks to ensure the loan data is correctly filled out.
 
-   ```bash
-   npm install
-   ```
+## Technologies Used
 
-2. Start the app
+- **Frontend**:
+  - React (with hooks) for building the user interface.
+  - TypeScript for type safety.
+  - React Navigation for navigating through the multi-step form.
+  - Redux for state management and handling form data.
+  - Axios for making HTTP requests.
+  - React Native for mobile app development.
+- **Backend**:
+  - Fake Backend
+- **Others**:
+  - Google Maps API for address search and geolocation.
 
-   ```bash
-    npx expo start
-   ```
+## Setup Instructions
 
-In the output, you'll find options to open the app in a
+### Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Before setting up the project, make sure you have the following installed:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Node.js (v14 or higher)
+- npm or yarn (for managing dependencies)
+- Expo CLI (for React Native development)
 
-## Get a fresh project
+### Clone the Repository
 
-When you're ready, run:
+Start by cloning the repository to your local machine:
 
 ```bash
-npm run reset-project
+git clone https://github.com/stroici-ion/mortgages.git
+cd mortgages
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
