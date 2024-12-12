@@ -13,7 +13,7 @@ export interface ILoanForm {
   price: number;
   downPayment: number;
   monthlyPayment: number;
-  xField: number;
+  reverseAmount: number;
   loanDuration: string;
   rate: number;
   giftFunds: number;
@@ -56,10 +56,10 @@ export enum ELoanPropertyType {
 }
 
 export enum EUserSituation {
-  HOSPITALITIST = 'Procticing Hospitalitis',
+  HOSPITALITIST = 'Practicing Hospitalist',
   EXITING_RESIDENCY = 'Exiting Residency',
   EXITING_FELLOESHIP = 'Exiting Fellowship',
-  SELF_EMPLOYED = 'Self Employed Chimichian',
+  SELF_EMPLOYED = 'Self-employed Clinician',
 }
 
 //Fetched Data
@@ -69,7 +69,7 @@ export interface IFetchedLoanForm {
   price: number;
   down_payment: number;
   monthly_payment: number;
-  _xField: number;
+  reverse_amount: number;
   loan_duration: string;
   rate: number;
   gift_funds: number;

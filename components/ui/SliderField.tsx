@@ -71,8 +71,8 @@ const SliderField: React.FC<SliderFieldProps> = ({
 
   return (
     <View className={`w-full ${containerStyle}`}>
-      {title && <Text className="text-gray-3">{title}</Text>}
-      <View className="mt-8 mb-2 flex-1 justify-center items-center">
+      {title && <Text className="text-gray-3 text-sm">{title}</Text>}
+      <View className="mt-4 mb-2 flex-1 justify-center items-center">
         <View
           ref={trackRef}
           className="w-[100%] h-[10px] bg-gray-1 rounded-xl relative mx-2"
@@ -82,7 +82,7 @@ const SliderField: React.FC<SliderFieldProps> = ({
           <View style={{ width: thumbPosition + 10 }} className="h-[10px] bg-primary rounded-xl" />
           <Animated.View
             style={{ left: thumbPosition }}
-            className="w-[20px] h-[20px] border-2 border-white bg-secondary rounded-full absolute top-[-5px]"
+            className="w-[20px] h-[20px] border-2 border-white bg-primary-2 rounded-full absolute top-[-5px]"
           />
         </View>
       </View>

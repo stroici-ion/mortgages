@@ -20,9 +20,9 @@ const App = () => {
 
   return (
     <SafeAreaView className="bg-white h-full">
-      <View className="w-full items-center justify-center flex-1 mt-20">
-        <Image source={icons.logo} className="w-60 h-60" />
-        <Text className="text-3xl mt-5 text-gray-500">Mortgages</Text>
+      <View className="flex-row items-center justify-center mt-10 gap-5">
+        <Image source={icons.logo} resizeMode="contain" className="w-20 h-20" />
+        <Text className="text-2xl font-imedium">Mortgages</Text>
       </View>
       <FlatList
         className="w-full p-10 flex-1"

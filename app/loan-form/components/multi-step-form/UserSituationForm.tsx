@@ -23,24 +23,24 @@ const UserSituationForm = () => {
   const userSituation = [
     {
       type: EUserSituation.HOSPITALITIST,
-      title: 'Practicing Hospitalitis',
-      subtitle: 'Practicing means that you should practice',
-      icon: icons.home,
+      title: 'Practicing Hospitalist',
+      subtitle: 'Practicing hospitalist with W2 paystubs',
+      icon: icons.medicalCross,
     },
     {
       type: EUserSituation.EXITING_RESIDENCY,
       title: 'Exiting Residency',
-      icon: icons.home,
+      icon: icons.building,
     },
     {
       type: EUserSituation.EXITING_FELLOESHIP,
       title: 'Exiting Fellowship',
-      icon: icons.home,
+      icon: icons.friends,
     },
     {
       type: EUserSituation.SELF_EMPLOYED,
-      title: 'Self Employed Chimichian',
-      icon: icons.home,
+      title: 'Self-employed Clinician',
+      icon: icons.user,
     },
   ];
 

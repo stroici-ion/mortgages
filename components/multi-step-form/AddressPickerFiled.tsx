@@ -1,6 +1,6 @@
 import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import React, { useEffect, useRef } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { IAddress, ICoordinates } from '@/redux/loanForm/types';
 
@@ -67,7 +67,7 @@ const AddressPickerFiled: React.FC<AddressPickerFiledProps> = ({ title, value, c
 
   return (
     <View className={`${containerStyle}`}>
-      <Text className="text-gray-3">{title}</Text>
+      <Text className="text-gray-3 text-sm font-iregular">{title}</Text>
       <View className={`h-[50px] border border-gray-2 rounded-xl mt-1 ${containerStyle}`}>
         <GooglePlacesAutocomplete
           ref={googlePlacesRef}
@@ -90,6 +90,7 @@ const AddressPickerFiled: React.FC<AddressPickerFiledProps> = ({ title, value, c
               height: 48,
               paddingLeft: 10,
               borderRadius: 15,
+              fontFamily: 'Inter-Regular',
             },
             listView: {
               backgroundColor: 'white',

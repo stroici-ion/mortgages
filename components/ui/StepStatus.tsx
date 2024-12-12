@@ -22,8 +22,8 @@ const StepStatus: React.FC<IStepStatus> = ({ title, status, step, containerStyle
         </View>
       )}
       <View>
-        <Text className="text-gray-3 text-sm">STEP {step}</Text>
-        <Text className="font-semibold">{title}</Text>
+        <Text className="text-gray-3 text-xs font-iregular">STEP {step}</Text>
+        <Text className="font-imedium">{title}</Text>
       </View>
     </View>
   );

@@ -27,13 +27,14 @@ const DatePicker: React.FC<DatePickerProps> = ({ title, value, onChange, contain
 
   return (
     <View className={`${containerStyle}`}>
-      {title && <Text className="text-gray-3">{title}</Text>}
+      {title && <Text className="text-gray-3 font-iregular text-sm">{title}</Text>}
       <View className={`h-[50px] border border-gray-2 rounded-xl mt-1 ${containerStyle}`}>
         <TouchableOpacity className="rounded-xl pl-[10px] h-full pr-0 justify-center" onPress={handleShowDatePicker}>
           <Text>{value}</Text>
         </TouchableOpacity>
         {showDatePicker && (
           <DateTimePicker
+            className="font-regular"
             value={parseDate(value) || new Date()}
             mode="date"
             display="default"

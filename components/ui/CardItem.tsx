@@ -1,5 +1,7 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
+
+import Icon from './Icon';
 
 interface ListItemProps {
   title: string;
@@ -18,8 +20,8 @@ const CardItem: React.FC<ListItemProps> = ({ title, icon, containerStyle, onPres
       } ${containerStyle}`}
       onPress={onPress}
     >
-      <Image source={icon} resizeMode="contain" className="w-8 h-8" />
-      <Text className="mt-5 text-xl text-inherit font-bold">{title}</Text>
+      <Icon source={icon} />
+      <Text className="mt-3 text-xl text-inherit font-imedium">{title}</Text>
     </TouchableOpacity>
   );
 };

@@ -3,6 +3,15 @@ import { useEffect, useState } from 'react';
 import { SplashScreen, Stack } from 'expo-router';
 import { Provider } from 'react-redux';
 import * as Crypto from 'expo-crypto';
+import {
+  Inter_900Black,
+  Inter_700Bold,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_400Regular,
+  Inter_300Light,
+  useFonts,
+} from '@expo-google-fonts/inter';
 
 import '../styles/global.css';
 import store from '../redux';
@@ -10,12 +19,18 @@ import store from '../redux';
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [fontsLoaded, error] = useFonts({
+    Inter_900Black,
+    Inter_700Bold,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_400Regular,
+    Inter_300Light,
+  });
 
   useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hideAsync();
-      setIsLoading(false);
+    if (error) throw error;
+    if (fontsLoaded) {
       if (typeof global.crypto === 'undefined') {
         global.crypto = {
           //@ts-ignore
@@ -23,11 +38,12 @@ const RootLayout = () => {
             return Crypto.getRandomBytesAsync(buffer.length);
           },
         };
+        SplashScreen.hideAsync();
       }
-    }, 2000);
-  }, []);
+    }
+  }, [fontsLoaded, error]);
 
-  if (isLoading) return null;
+  if (!fontsLoaded) return null;
 
   return (
     <Provider store={store}>

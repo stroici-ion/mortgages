@@ -29,28 +29,29 @@ const PropertyTypeForm = () => {
     {
       type: ELoanPropertyType.TOWM_HOME,
       title: 'Town Home',
-      icon: icons.home,
+      icon: icons.townhome,
     },
     {
       type: ELoanPropertyType.CONDOMINIUM,
       title: 'Condominium',
-      icon: icons.home,
+      icon: icons.condomium,
     },
     {
       type: ELoanPropertyType.APARTAMENT,
       title: 'Apartament',
-      icon: icons.home,
+      icon: icons.apartment,
     },
     {
       type: ELoanPropertyType.OTHER_2_4,
       title: 'Other 2-4 unit',
-      icon: icons.home,
+      icon: icons.building,
     },
   ];
 
   return (
     <TabContent title="What kind of a property is it?">
       <FlatList
+        className="mb-5"
         contentContainerClassName="gap-4 pb-10"
         data={propertyTypesList}
         renderItem={({ item }) => (

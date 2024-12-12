@@ -24,7 +24,7 @@ const ZipCodeInputField: React.FC<ZipCodeInputFieldProps> = ({ title, value, con
 
   return (
     <View className={`${containerStyle}`}>
-      <Text className="text-gray-3">{title}</Text>
+      <Text className="text-gray-3 font-iregular text-sm">{title}</Text>
       <View className={`h-[50px] border border-gray-2 rounded-xl mt-1 ${containerStyle}`}>
         <TextInput
           className="pl-[10px] h-full"

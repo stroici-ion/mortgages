@@ -29,7 +29,7 @@ const CountryPickerField: React.FC<CountryPickerFieldProps> = ({ title, country,
 
   return (
     <View className={`${containerStyle}`}>
-      <Text className="text-gray-3">{title}</Text>
+      <Text className="text-gray-3 font-iregular text-sm">{title}</Text>
       <View className={`h-[50px] border border-gray-2 rounded-xl mt-1`}>
         <GooglePlacesAutocomplete
           ref={googlePlacesRef}

@@ -13,7 +13,7 @@ interface PickerFieldProps {
 const PickerField: React.FC<PickerFieldProps> = ({ title, value, onChange, options, containerStyle }) => {
   return (
     <View className={`${containerStyle}`}>
-      {title && <Text className="text-gray-3">{title}</Text>}
+      {title && <Text className="text-gray-3 text-sm font-iregular">{title}</Text>}
       <View className={`h-[50px] border border-gray-2 rounded-xl mt-1 justify-center ${containerStyle}`}>
         <Picker selectedValue={value} onValueChange={onChange}>
           {options.map((option) => (

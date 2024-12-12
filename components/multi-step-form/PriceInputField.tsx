@@ -49,17 +49,17 @@ const PriceInputField: React.FC<PriceInputFieldProps> = ({
 
   return (
     <View className="w-full">
-      {title && <Text className="text-gray-3">{title}</Text>}
+      {title && <Text className="text-gray-3 text-sm font-iregular">{title}</Text>}
       <View
         className={`h-[50px] border border-gray-2 rounded-xl flex-row items-center ${decorator && 'pl-3'} ${
           title && 'mt-1'
         } ${containerStyle}`}
       >
-        {decorator && <Text className={`text-[15px] font-bold text-gray-4`}>{decorator}</Text>}
+        {decorator && <Text className={`text-[15px] text-gray-4 font-ibold`}>{decorator}</Text>}
         <TextInput
           editable={!inactive}
           value={displayValue(value)}
-          className={`rounded-xl pl-[10px] h-full pr-2 flex-1 order-2`}
+          className={`rounded-xl pl-[10px] h-full pr-2 flex-1 order-2 font-iregular`}
           keyboardType="number-pad"
           onChange={handleSetIntegerValue}
         />

@@ -23,12 +23,12 @@ const ActionTypeForm = () => {
     {
       type: ELoanActionType.BUY,
       title: 'Buy a new home',
-      icon: icons.home,
+      icon: icons.moneySend,
     },
     {
       type: ELoanActionType.REFINANCE,
       title: 'Refinance my home loan',
-      icon: icons.home,
+      icon: icons.moneyRecieve,
     },
   ];
 

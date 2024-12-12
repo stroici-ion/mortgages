@@ -40,8 +40,8 @@ const PriceForm = () => {
             <NumberInputField value={form.price} onChange={setPrice} decorator="$" />
           </View>
           <Text className="text-2xl font-bold mt-4">How much down payment can you put towards your home?</Text>
-          <Text className="text-gray-3 mt-3">Tipicaly people can around 0-25%</Text>
-          <View className="flex-row mt-4">
+          <Text className="text-gray-3 mt-1 text-sm">Tipicaly people can around 0-25%</Text>
+          <View className="flex-row mt-5">
             <NumberInputField
               inactive={true}
               value={Math.floor((form.price * sliderValue) / 100)}

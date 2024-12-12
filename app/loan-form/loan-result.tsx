@@ -59,7 +59,7 @@ const LoanResult = () => {
       <View className="flex-1 pl-8 pr-8 pb-8 pt-2 gap-4">
         <View className="flex-row items-center justify-center mt-0 gap-5">
           <Image source={icons.logo} resizeMode="contain" className="w-20 h-20" />
-          <Text className="text-3xl">Mortgages</Text>
+          <Text className="text-2xl font-imedium">Mortgages</Text>
         </View>
         <View className="border border-gray-2 p-7 py-4 rounded-2xl">
           <DetailRow title="Property" value={loan.propertyType} />
@@ -74,7 +74,7 @@ const LoanResult = () => {
         </View>
         <View className="flex-1 justify-end">
           <TouchableOpacity className="border border-gray-2 rounded-xl p-3 items-center justify-center">
-            <Text className="text-center">Talk to Your Loan Officer</Text>
+            <Text className="text-center font-iregular text-sm">Talk to Your Loan Officer</Text>
           </TouchableOpacity>
           <Button handlePress={() => router.back()} title="Back to Home" containerStyles="mt-3" />
         </View>

@@ -21,7 +21,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress, step, totalSteps, c
           }}
         />
       </View>
-      <Text className="ml-3 text-gray-3">
+      <Text className="ml-3 text-gray-3 font-iregular text-sm">
         <Text className="text-black">{step}</Text>/{totalSteps}
       </Text>
     </View>

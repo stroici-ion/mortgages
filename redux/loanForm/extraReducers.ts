@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import { ILoanFormState } from './types';
 import { fetchSubmitLoanFormStep } from './asyncActions';
 import { EFetchStatus } from '@/services/api';
-import { formInitialState } from './slice';
+import { formInitialState } from './initialState';
 
 export const extraReducers = (builder: ActionReducerMapBuilder<ILoanFormState>) => {
   //* POSTS LIST

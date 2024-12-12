@@ -6,7 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#3CDAF7',
+        primary: {
+          DEFAULT: '#3CDAF7',
+          1: '#f2fbff',
+          2: '#20B2FA',
+        },
         buttonGradientEndColor: '#20B2FA',
         gray: {
           1: '#f8f8f8',
@@ -14,16 +18,14 @@ module.exports = {
           3: '#aaa',
           4: '#444',
         },
-        secondary: {
-          DEFAULT: '#20B2FA',
-          100: '#FF9001',
-          200: '#FF8E01',
-        },
-        black: {
-          DEFAULT: '#000',
-          100: '#1E1E2D',
-          200: '#232533',
-        },
+      },
+      fontFamily: {
+        iblack: 'Inter_900Black',
+        ibold: 'Inter_700Bold',
+        imedium: 'Inter_500Medium',
+        isemibold: 'Inter_600SemiBold',
+        iregular: 'Inter_400Regular',
+        ilight: 'Inter_300Light',
       },
     },
   },

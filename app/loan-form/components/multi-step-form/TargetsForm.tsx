@@ -16,11 +16,11 @@ const TargetsForm = () => {
   const dispatch = useAppDispatch();
 
   const setMonthlyPayment = (monthlyPayment: number) => dispatch(setForm({ monthlyPayment }));
-  const setXField = (xField: number) => dispatch(setForm({ xField }));
+  const setReverseAmount = (reverseAmount: number) => dispatch(setForm({ reverseAmount }));
   const setLoanDuration = (value: string) => dispatch(setForm({ loanDuration: value }));
   const setRate = (rate: number) => dispatch(setForm({ rate }));
 
-  const isCompleted = form.loanDuration && form.monthlyPayment && form.rate && form.xField;
+  const isCompleted = form.loanDuration && form.monthlyPayment && form.rate && form.reverseAmount;
 
   const handleGoNext = () => {
     if (isCompleted) {
@@ -68,7 +68,12 @@ const TargetsForm = () => {
             decorator="$"
           />
           <NumberInputField title="Rate %" value={form.rate} onChange={setRate} decorator="%" maxValue={100} />
-          <NumberInputField title="X Field" value={form.xField} onChange={setXField} decorator="$" />
+          <NumberInputField
+            title="Reverse Amount"
+            value={form.reverseAmount}
+            onChange={setReverseAmount}
+            decorator="$"
+          />
         </ScrollView>
       </View>
       <Button title="Continue" handlePress={handleGoNext} disabled={!isCompleted} />

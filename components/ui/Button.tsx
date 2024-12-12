@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({ title, handlePress, containerStyles, te
       </TouchableOpacity>
       <View className="absolute w-full h-full items-center justify-center">
         <View pointerEvents="none">
-          <Text className={` text-white font-psemibold text-xl font-bold ${textStyles}`}>{title}</Text>
+          <Text className={` text-white font-isemibold text-xl ${textStyles}`}>{title}</Text>
         </View>
       </View>
     </View>

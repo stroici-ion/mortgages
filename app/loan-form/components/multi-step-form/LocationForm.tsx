@@ -61,7 +61,7 @@ const FormLocation = () => {
       />
       <ZipCodeInputField title="Zip Code" containerStyle="mt-2" value={zipCode} onChange={onChangeZipCode} />
       <View className="mt-3 flex-1 mb-3">
-        <Text className="text-gray-3">Location</Text>
+        <Text className="text-gray-3 font-iregular text-sm">Location</Text>
         <View className="relative flex-1 mt-1 rounded-xl overflow-hidden">
           <MapView
             style={{ width: '100%', height: '100%' }}
