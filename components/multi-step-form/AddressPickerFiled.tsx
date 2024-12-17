@@ -2,20 +2,19 @@ import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google
 import React, { useEffect, useRef } from 'react';
 import { Text, View } from 'react-native';
 
-import { IAddress, ICoordinates } from '@/redux/loanForm/types';
+import { ICoordinates } from '@/redux/loanForm/types';
 
 interface AddressPickerFiledProps {
   title: string;
-  country?: string;
   value: string;
-  onChange: (geoLocation: ICoordinates & IAddress) => void;
+  country: string;
+  onChange: (geoLocation: ICoordinates & { address: string; newCountryValue: string }) => void;
   containerStyle?: string;
 }
 
 const AddressPickerFiled: React.FC<AddressPickerFiledProps> = ({ title, value, country, containerStyle, onChange }) => {
   //@ts-ignore
   const googlePlacesRef = useRef<GooglePlacesAutocomplete | null>(null);
-  const oldCountryValue = useRef<string>(country + '');
 
   const parseAddressComponents = (components: any[]) => {
     const getComponent = (type: string) => components.find((component) => component.types.includes(type))?.long_name;
@@ -37,7 +36,6 @@ const AddressPickerFiled: React.FC<AddressPickerFiledProps> = ({ title, value, c
       let address = `${countryValue}${city ? ', ' + city : ''}${street ? ', ' + street : ''},${
         streetNumber ? ', ' + streetNumber : ''
       }`;
-      if (countryValue) oldCountryValue.current = countryValue;
 
       if (address[address.length - 1] === ',') {
         address = address.slice(0, address.length - 1);
@@ -45,7 +43,7 @@ const AddressPickerFiled: React.FC<AddressPickerFiledProps> = ({ title, value, c
 
       onChange({
         address,
-        country: countryValue || country || '',
+        newCountryValue: countryValue,
         latitude: lat,
         longitude: lng,
         latitudeDelta: 0.001,
@@ -56,14 +54,10 @@ const AddressPickerFiled: React.FC<AddressPickerFiledProps> = ({ title, value, c
 
   useEffect(() => {
     if (googlePlacesRef.current) {
-      if (oldCountryValue.current !== country) {
-        googlePlacesRef.current.setAddressText(country + ', ');
-        oldCountryValue.current = country + '';
-      } else {
-        googlePlacesRef.current.setAddressText(value);
-      }
+      if (!value && country) googlePlacesRef.current.setAddressText(country + ', ');
+      else googlePlacesRef.current.setAddressText(value);
     }
-  }, [country, value, googlePlacesRef.current]);
+  }, [value, googlePlacesRef.current]);
 
   return (
     <View className={`${containerStyle}`}>

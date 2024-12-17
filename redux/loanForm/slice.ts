@@ -9,20 +9,21 @@ const loanForm = createSlice({
   initialState,
   reducers: {
     setLoanFormStep: (state, action: PayloadAction<number>) => {
-      state.form.step = action.payload;
+      state.loanFormStep = action.payload;
     },
 
     setForm: (state, action: PayloadAction<Partial<ILoanForm>>) => {
       state.form = { ...state.form, ...action.payload };
     },
 
-    setLocation: (state, action: PayloadAction<Partial<ILocation>>) => {
-      state.form.location = { ...state.form.location, ...action.payload };
+    resetForm: (state) => {
+      state.form = initialState.form;
+      state.loanFormStep = 0;
     },
   },
   extraReducers,
 });
 
-export const { setLoanFormStep, setForm, setLocation } = loanForm.actions;
+export const { setLoanFormStep, setForm, resetForm } = loanForm.actions;
 
 export default loanForm.reducer;

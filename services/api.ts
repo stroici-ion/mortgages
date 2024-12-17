@@ -1,5 +1,9 @@
-import { ILoanForm } from '@/redux/loanForm/types';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+
+import { EFormStepType, ILoan, ILoanForm, ILoanFormParams } from '@/redux/loanForm/types';
 import normalizeServerData from '@/utils/normalizeServerData';
+import { formatDate } from '@/utils/formatDate';
+import { getLoanParams } from '@/utils/getLoanParams';
 
 export interface IFetchError {
   message: string;
@@ -11,55 +15,88 @@ export enum EFetchStatus {
   ERROR = 'error',
 }
 
-class FakeApiInstance {
-  async post(url: string, data: ILoanForm): Promise<any> {
-    console.log(`POST request to ${url} with data:`, data);
+class Api {
+  private client;
 
-    if (url === '/submitLoanForm') {
-      const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+  constructor(baseURL: string = 'http://192.168.100.145:3000/api/v1') {
+    this.client = axios.create({
+      baseURL,
+      timeout: 5000,
+    });
+  }
 
-      const shouldThrowError = Math.random() < 0.03;
+  async submitLoanForm(params: ILoanFormParams, id?: number): Promise<ILoanForm> {
+    try {
+      const response: AxiosResponse = id
+        ? await this.client.put(`/loans/${id}`, getLoanParams(params))
+        : await this.client.post('/loans', getLoanParams(params));
 
-      if (shouldThrowError) {
-        await delay(1000);
-        throw {
-          response: {
-            status: 400,
-            data: {
-              message: 'Invalid loan data',
-            },
-          },
-        };
+      const camelCase = normalizeServerData(response.data);
+
+      const responseData: Partial<ILoanForm> = {
+        id: camelCase.id,
+        price: camelCase.price > 0 ? camelCase.price : 0,
+        rate: camelCase.rate || 0,
+        formCompleted: camelCase.formCompleted,
+        downPaymentRate: camelCase.downPaymentRate || 0,
+        duration: camelCase.duration || 10,
+        actionType: camelCase.actionType || 0,
+        giftFunds: camelCase.giftFunds || 0,
+        propertyType: camelCase.propertyType || 0,
+        userSituation: camelCase.userSituation || 0,
+        date: camelCase.date || formatDate(new Date()),
+        country: camelCase.country || '',
+        address: camelCase.address || '',
+        latitude: camelCase.latitude || 47.0105,
+        longitude: camelCase.longitude || 28.8638,
+        zipCode: camelCase.zipCode || '',
+      };
+
+      return responseData as ILoanForm;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        //@ts-ignore
+        throw new Error(axiosError.response?.data?.message || 'Unknown error occurred');
       } else {
-        await delay(300);
-        return {
-          status: 200,
-          data,
-        };
+        console.error('Error submitting loan form:', error);
+        throw new Error('Error submitting loan form');
       }
     }
-
-    return {
-      status: 200,
-      data,
-    };
-  }
-}
-
-class Api {
-  private client: FakeApiInstance;
-
-  constructor(baseURL: string) {
-    this.client = new FakeApiInstance();
   }
 
-  async submitLoanForm(formData: ILoanForm): Promise<ILoanForm> {
+  async getLoan(id: number): Promise<ILoan> {
     try {
-      const response = await this.client.post('/submitLoanForm', formData);
-      return normalizeServerData(response.data) as ILoanForm;
+      const response: AxiosResponse = await this.client.get(`/loans/${id}`);
+      const data = normalizeServerData(response.data) as ILoan;
+      return data;
     } catch (error) {
-      console.error('Error submitting loan form:', error);
-      throw error;
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        //@ts-ignore
+        throw new Error(axiosError.response?.data?.message || 'Unknown error occurred');
+      } else {
+        throw new Error('Error fetching loan');
+      }
+    }
+  }
+
+  async getLoans(): Promise<{ loans: ILoan[]; incompletedLoanForm?: ILoanForm & { activeStep: string } }> {
+    try {
+      const response: AxiosResponse = await this.client.get('/loans');
+      const data = normalizeServerData(response.data) as {
+        loans: ILoan[];
+        incompletedLoanForm?: ILoanForm & { activeStep: string };
+      };
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        //@ts-ignore
+        throw new Error(axiosError.response?.data?.message || 'Unknown error occurred');
+      } else {
+        throw new Error('Error fetching loans');
+      }
     }
   }
 }

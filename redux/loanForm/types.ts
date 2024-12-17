@@ -1,29 +1,34 @@
 import { EFetchStatus } from '@/services/api';
 
 export interface ILoanFormState {
-  loans: ILoanForm[];
+  loans: ILoan[];
   form: ILoanForm;
   status: EFetchStatus;
+  loanFormStep: number;
   error: string | null;
 }
 
-export interface ILoanForm {
-  step: number;
-
-  price: number;
-  downPayment: number;
+export interface ILoan extends Omit<ILoanForm, 'latitudeDelta' | 'longitudeDelta'> {
   monthlyPayment: number;
+  downPayment: number;
   reverseAmount: number;
-  loanDuration: string;
-  rate: number;
-  giftFunds: number;
+  isDocumentReviewed: number;
+  isPendingFinalApproval: number;
+  isApproved: number;
+}
 
+export interface ILoanForm extends ILocation {
+  id?: number;
+  formCompleted: boolean;
   actionType: ELoanActionType;
   propertyType: ELoanPropertyType;
-  userSituationType: EUserSituation;
+  price: number;
+  downPaymentRate: number;
+  userSituation: EUserSituation;
+  duration: string;
+  rate: number;
   date: string;
-
-  location: ILocation;
+  giftFunds: number;
 }
 
 export interface ILocation extends IAddress, ICoordinates {
@@ -42,49 +47,79 @@ export interface ICoordinates {
   longitudeDelta: number;
 }
 
+export interface ILoanFormParams {
+  loan: Partial<ILoanForm>;
+  formProgress: { activeStep: EFormStepType };
+}
+
 export enum ELoanActionType {
-  BUY = 'buy',
-  REFINANCE = 'refinance',
+  BUY = 0,
+  REFINANCE = 1,
 }
 
 export enum ELoanPropertyType {
-  SINGLE_FAMILY = 'Single family home',
-  TOWM_HOME = 'Tow Home',
-  CONDOMINIUM = 'Condomiunium',
-  APARTAMENT = 'Apartament',
-  OTHER_2_4 = 'Other 2-4 unit',
+  SINGLE_FAMILY = 0,
+  TOWM_HOME = 1,
+  CONDOMINIUM = 2,
+  APARTAMENT = 3,
+  OTHER_2_4 = 4,
 }
 
 export enum EUserSituation {
-  HOSPITALITIST = 'Practicing Hospitalist',
-  EXITING_RESIDENCY = 'Exiting Residency',
-  EXITING_FELLOESHIP = 'Exiting Fellowship',
-  SELF_EMPLOYED = 'Self-employed Clinician',
+  HOSPITALITIST = 0,
+  EXITING_RESIDENCY = 1,
+  EXITING_FELLOESHIP = 2,
+  SELF_EMPLOYED = 3,
+}
+
+export enum EFormStepType {
+  action_type = 0,
+  location = 1,
+  property_type = 2,
+  price = 3,
+  user_situation = 4,
+  targets = 5,
+  date = 6,
+  gift_funds = 7,
 }
 
 //Fetched Data
-export interface IFetchedLoanForm {
-  step: number;
+// export interface IFetchedLoanForm extends IFetchedCoordinates {
+//   id?: number;
+//   action_type: ELoanActionType;
+//   property_type: ELoanPropertyType;
+//   price: number;
+//   down_payment_rate: number;
+//   user_situation_type: EUserSituation;
+//   loan_duration: string;
+//   rate: number;
+//   date: string;
+//   gift_funds: number;
+// }
 
-  price: number;
-  down_payment: number;
-  monthly_payment: number;
-  reverse_amount: number;
-  loan_duration: string;
-  rate: number;
-  gift_funds: number;
+// // id?: number;
+// // actionType: ELoanActionType;
+// // propertyType: ELoanPropertyType;
+// // price: number;
+// // downPaymentRate: number;
+// // userSituationType: EUserSituation;
+// // loanDuration: string;
+// // rate: number;
+// // date: string;
+// // giftFunds: number;
 
-  action_type: ELoanActionType;
-  property_type: ELoanPropertyType;
-  user_situation_type: EUserSituation;
-  date: string;
+// export interface IFetchedCoordinates {
+//   latitude: number;
+//   longitude: number;
+//   latitude_delta: number;
+//   longitude_delta: number;
+// }
 
-  location: IFetchedCoordinates;
-}
-
-export interface IFetchedCoordinates {
-  latitude: number;
-  longitude: number;
-  latitude_delta: number;
-  longitude_delta: number;
-}
+// export interface ILoan extends Omit<ILoanForm, 'latitudeDelta' | 'longitudeDelta'> {
+//   monthlyPayment: number;
+//   downPayment: number;
+//   reverseAmount: number;
+//   isDocumentReviewed: number;
+//   isPendingFinalApproval: number;
+//   isApproved: number;
+// }

@@ -10,25 +10,26 @@ import Button from '@/components/ui/Button';
 import { useAppDispatch } from '@/redux';
 import TabContent from '@/components/multi-step-form/TabContent';
 import { fetchSubmitLoanFormStep } from '@/redux/loanForm/asyncActions';
+import { EFormStepType } from '@/redux/loanForm/types';
 
 const PriceForm = () => {
   const dispatch = useAppDispatch();
-  const form = useSelector(selectLoanForm);
+  const { price, downPaymentRate } = useSelector(selectLoanForm);
 
-  const [sliderValue, setSliderValue] = useState(form.downPayment);
+  const [sliderValue, setSliderValue] = useState(downPaymentRate);
 
   const onChangeSliderValue = (value: number) => {
     setSliderValue(value);
   };
 
   const setPrice = (price: number) => dispatch(setForm({ price }));
-  const setDownPayment = (downPayment: number) => dispatch(setForm({ downPayment }));
+  const setDownPayment = (downPaymentRate: number) => dispatch(setForm({ downPaymentRate }));
 
-  const isCompleted = form.price && form.downPayment;
+  const isCompleted = downPaymentRate && price;
 
   const handleGoNext = () => {
     if (isCompleted) {
-      dispatch(fetchSubmitLoanFormStep(form));
+      dispatch(fetchSubmitLoanFormStep([{ price, downPaymentRate }, EFormStepType.price]));
     }
   };
 
@@ -37,14 +38,14 @@ const PriceForm = () => {
       <View className="flex-1">
         <ScrollView contentContainerClassName="gap-1 pb-10">
           <View className="flex-row mt-4">
-            <NumberInputField value={form.price} onChange={setPrice} decorator="$" />
+            <NumberInputField value={price} onChange={setPrice} decorator="$" />
           </View>
-          <Text className="text-2xl font-bold mt-4">How much down payment can you put towards your home?</Text>
+          <Text className="text-xl font-imedium mt-4">How much down payment can you put towards your home?</Text>
           <Text className="text-gray-3 mt-1 text-sm">Tipicaly people can around 0-25%</Text>
           <View className="flex-row mt-5">
             <NumberInputField
               inactive={true}
-              value={Math.floor((form.price * sliderValue) / 100)}
+              value={Math.floor((price * sliderValue) / 100)}
               onChange={() => {}}
               decorator="$"
             />

@@ -10,21 +10,20 @@ import Button from '@/components/ui/Button';
 import { useAppDispatch } from '@/redux';
 import TabContent from '@/components/multi-step-form/TabContent';
 import { fetchSubmitLoanFormStep } from '@/redux/loanForm/asyncActions';
+import { EFormStepType } from '@/redux/loanForm/types';
 
 const TargetsForm = () => {
-  const form = useSelector(selectLoanForm);
+  const { duration, price, rate } = useSelector(selectLoanForm);
   const dispatch = useAppDispatch();
 
-  const setMonthlyPayment = (monthlyPayment: number) => dispatch(setForm({ monthlyPayment }));
-  const setReverseAmount = (reverseAmount: number) => dispatch(setForm({ reverseAmount }));
-  const setLoanDuration = (value: string) => dispatch(setForm({ loanDuration: value }));
+  const setLoanDuration = (value: string) => dispatch(setForm({ duration: value }));
   const setRate = (rate: number) => dispatch(setForm({ rate }));
 
-  const isCompleted = form.loanDuration && form.monthlyPayment && form.rate && form.reverseAmount;
+  const isCompleted = duration && rate;
 
   const handleGoNext = () => {
     if (isCompleted) {
-      dispatch(fetchSubmitLoanFormStep(form));
+      dispatch(fetchSubmitLoanFormStep([{ duration, rate }, EFormStepType.targets]));
     }
   };
 
@@ -57,22 +56,22 @@ const TargetsForm = () => {
         <ScrollView contentContainerClassName="gap-4 pb-10">
           <PickerField
             title="Duration of Loan"
-            value={`${form.loanDuration}`}
+            value={`${duration}`}
             options={loanDurationOptions}
             onChange={setLoanDuration}
           />
           <NumberInputField
             title="Monthly payment"
-            value={form.monthlyPayment}
-            onChange={setMonthlyPayment}
+            value={Math.round(price / (+duration * 12))}
             decorator="$"
+            onChange={() => {}}
           />
-          <NumberInputField title="Rate %" value={form.rate} onChange={setRate} decorator="%" maxValue={100} />
+          <NumberInputField title="Rate %" value={rate} onChange={setRate} decorator="%" maxValue={100} />
           <NumberInputField
             title="Reverse Amount"
-            value={form.reverseAmount}
-            onChange={setReverseAmount}
+            value={Math.round(price / (+duration * 12))}
             decorator="$"
+            onChange={() => {}}
           />
         </ScrollView>
       </View>

@@ -5,45 +5,46 @@ import React from 'react';
 import { setForm, setLoanFormStep } from '@/redux/loanForm/slice';
 import TabContent from '@/components/multi-step-form/TabContent';
 import { selectLoanForm } from '@/redux/loanForm/selectors';
-import { ELoanPropertyType } from '@/redux/loanForm/types';
+import { EFormStepType, ELoanPropertyType } from '@/redux/loanForm/types';
 import ListItem from '@/components/ui/ListItem';
 import Button from '@/components/ui/Button';
 import { useAppDispatch } from '@/redux';
 import { icons } from '@/constants';
 import { fetchSubmitLoanFormStep } from '@/redux/loanForm/asyncActions';
+import { getPropertyTypeValue } from '@/utils/getPropertyTypeValue';
 
 const PropertyTypeForm = () => {
   const dispatch = useAppDispatch();
-  const form = useSelector(selectLoanForm);
+  const { propertyType } = useSelector(selectLoanForm);
 
-  const goNext = () => dispatch(fetchSubmitLoanFormStep(form));
+  const goNext = () => dispatch(fetchSubmitLoanFormStep([{ propertyType }, EFormStepType.property_type]));
 
   const setActionType = (propertyType: ELoanPropertyType) => dispatch(setForm({ propertyType }));
 
   const propertyTypesList = [
     {
       type: ELoanPropertyType.SINGLE_FAMILY,
-      title: 'Single family home',
+      title: getPropertyTypeValue(ELoanPropertyType.SINGLE_FAMILY),
       icon: icons.home,
     },
     {
       type: ELoanPropertyType.TOWM_HOME,
-      title: 'Town Home',
+      title: getPropertyTypeValue(ELoanPropertyType.TOWM_HOME),
       icon: icons.townhome,
     },
     {
       type: ELoanPropertyType.CONDOMINIUM,
-      title: 'Condominium',
+      title: getPropertyTypeValue(ELoanPropertyType.CONDOMINIUM),
       icon: icons.condomium,
     },
     {
       type: ELoanPropertyType.APARTAMENT,
-      title: 'Apartament',
+      title: getPropertyTypeValue(ELoanPropertyType.APARTAMENT),
       icon: icons.apartment,
     },
     {
       type: ELoanPropertyType.OTHER_2_4,
-      title: 'Other 2-4 unit',
+      title: getPropertyTypeValue(ELoanPropertyType.OTHER_2_4),
       icon: icons.building,
     },
   ];
@@ -59,7 +60,7 @@ const PropertyTypeForm = () => {
             title={item.title}
             icon={item.icon}
             onPress={() => setActionType(item.type)}
-            containerStyle={`${form.propertyType === item.type && 'border-primary text-black'}`}
+            containerStyle={`${propertyType === item.type && 'border-primary text-black'}`}
           />
         )}
       />

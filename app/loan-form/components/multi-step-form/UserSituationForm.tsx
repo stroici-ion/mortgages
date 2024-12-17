@@ -5,41 +5,41 @@ import React from 'react';
 import { setForm } from '@/redux/loanForm/slice';
 import TabContent from '@/components/multi-step-form/TabContent';
 import { selectLoanForm } from '@/redux/loanForm/selectors';
-import { EUserSituation } from '@/redux/loanForm/types';
+import { EFormStepType, EUserSituation } from '@/redux/loanForm/types';
 import ListItem from '@/components/ui/ListItem';
 import Button from '@/components/ui/Button';
 import { useAppDispatch } from '@/redux';
 import { icons } from '@/constants';
 import { fetchSubmitLoanFormStep } from '@/redux/loanForm/asyncActions';
+import { getUserSituationValue } from '@/utils/getUserSituationValue';
 
 const UserSituationForm = () => {
-  const form = useSelector(selectLoanForm);
+  const { userSituation } = useSelector(selectLoanForm);
   const dispatch = useAppDispatch();
 
-  const setActionType = (userSituationType: EUserSituation) => dispatch(setForm({ userSituationType }));
+  const setActionType = (userSituation: EUserSituation) => dispatch(setForm({ userSituation }));
 
-  const goNext = () => dispatch(fetchSubmitLoanFormStep(form));
+  const goNext = () => dispatch(fetchSubmitLoanFormStep([{ userSituation }, EFormStepType.user_situation]));
 
-  const userSituation = [
+  const userSituationTypes = [
     {
       type: EUserSituation.HOSPITALITIST,
-      title: 'Practicing Hospitalist',
-      subtitle: 'Practicing hospitalist with W2 paystubs',
+      ...getUserSituationValue(EUserSituation.HOSPITALITIST),
       icon: icons.medicalCross,
     },
     {
       type: EUserSituation.EXITING_RESIDENCY,
-      title: 'Exiting Residency',
+      ...getUserSituationValue(EUserSituation.EXITING_RESIDENCY),
       icon: icons.building,
     },
     {
       type: EUserSituation.EXITING_FELLOESHIP,
-      title: 'Exiting Fellowship',
+      ...getUserSituationValue(EUserSituation.EXITING_FELLOESHIP),
       icon: icons.friends,
     },
     {
       type: EUserSituation.SELF_EMPLOYED,
-      title: 'Self-employed Clinician',
+      ...getUserSituationValue(EUserSituation.SELF_EMPLOYED),
       icon: icons.user,
     },
   ];
@@ -48,7 +48,7 @@ const UserSituationForm = () => {
     <TabContent title="Next, tell us a little about your own situation.">
       <FlatList
         contentContainerClassName="gap-4 pb-10"
-        data={userSituation}
+        data={userSituationTypes}
         renderItem={({ item }) => (
           <>
             <ListItem
@@ -56,7 +56,7 @@ const UserSituationForm = () => {
               subtitle={item.subtitle}
               icon={item.icon}
               onPress={() => setActionType(item.type)}
-              containerStyle={`${form.userSituationType === item.type && 'border-primary text-black'}`}
+              containerStyle={`${userSituation === item.type && 'border-primary text-black'}`}
             />
           </>
         )}

@@ -6,34 +6,50 @@ import { useSelector } from 'react-redux';
 import AddressPickerFiled from '@/components/multi-step-form/AddressPickerFiled';
 import CountryPickerField from '@/components/multi-step-form/CountryPickerField';
 import ZipCodeInputField from '@/components/multi-step-form/ZipCodeInputField';
-import { setLoanFormStep, setLocation } from '@/redux/loanForm/slice';
 import TabContent from '@/components/multi-step-form/TabContent';
-import { IAddress, ICoordinates } from '@/redux/loanForm/types';
+import { EFormStepType, IAddress, ICoordinates } from '@/redux/loanForm/types';
 import { selectLoanForm } from '@/redux/loanForm/selectors';
 import Button from '@/components/ui/Button';
 import { useAppDispatch } from '@/redux';
 import { fetchSubmitLoanFormStep } from '@/redux/loanForm/asyncActions';
+import { setForm } from '@/redux/loanForm/slice';
 
 const FormLocation = () => {
-  const form = useSelector(selectLoanForm);
-  const { country, address, latitude, longitude, latitudeDelta, longitudeDelta, zipCode } = form.location;
+  const { country, address, latitude, longitude, latitudeDelta, longitudeDelta, zipCode } = useSelector(selectLoanForm);
 
   const dispatch = useAppDispatch();
   const mapRef = useRef<MapView | null>(null);
 
-  const onChangeCountry = (country: string) => dispatch(setLocation({ country }));
-  const onChangeZipCode = (zipCode: string) => dispatch(setLocation({ zipCode }));
-  const onChangeAddress = (geoLocation: ICoordinates & IAddress) => dispatch(setLocation({ ...geoLocation }));
+  const onChangeCountry = (newCountryValue: string) => {
+    if (country !== newCountryValue) dispatch(setForm({ country, address: newCountryValue + ', ' }));
+    else dispatch(setForm({ country: newCountryValue }));
+  };
 
-  const isCompleted = !!country.length && !!address.length && zipCode.length > 4;
+  const onChangeZipCode = (zipCode: string) => dispatch(setForm({ zipCode }));
+  const onChangeAddress = (geoLocation: ICoordinates & { address: string; newCountryValue: string }) => {
+    if (country !== geoLocation.newCountryValue) {
+      dispatch(setForm({ ...geoLocation, country: geoLocation.newCountryValue }));
+    } else {
+      dispatch(setForm({ ...geoLocation }));
+    }
+  };
+
+  const isCompleted = !!country?.length && !!address?.length && zipCode?.length > 4;
 
   const handleGoNext = () => {
     if (isCompleted) {
-      dispatch(fetchSubmitLoanFormStep(form));
+      dispatch(
+        fetchSubmitLoanFormStep([
+          { country, address, latitude, longitude, latitudeDelta, longitudeDelta, zipCode },
+          EFormStepType.location,
+        ])
+      );
     }
   };
 
   React.useEffect(() => {
+    console.log('Latitude Delta and longitude inside LocationUse effect,', latitudeDelta, longitudeDelta);
+
     if (mapRef.current && latitude && longitude) {
       mapRef.current.animateToRegion({
         latitude,
@@ -54,8 +70,8 @@ const FormLocation = () => {
       />
       <AddressPickerFiled
         title="Address"
-        value={address}
         country={country}
+        value={address}
         containerStyle="mt-2"
         onChange={onChangeAddress}
       />
@@ -67,8 +83,8 @@ const FormLocation = () => {
             style={{ width: '100%', height: '100%' }}
             ref={mapRef}
             region={{
-              latitude,
-              longitude,
+              latitude: latitude || 47.0105,
+              longitude: longitude || 28.8638,
               latitudeDelta,
               longitudeDelta,
             }}

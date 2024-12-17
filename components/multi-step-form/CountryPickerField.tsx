@@ -22,10 +22,10 @@ const CountryPickerField: React.FC<CountryPickerFieldProps> = ({ title, country,
   };
 
   useEffect(() => {
-    if (googlePlacesRef.current && country) {
+    if (googlePlacesRef.current) {
       googlePlacesRef.current.setAddressText(country);
     }
-  }, [googlePlacesRef.current]);
+  }, [country, googlePlacesRef.current]);
 
   return (
     <View className={`${containerStyle}`}>

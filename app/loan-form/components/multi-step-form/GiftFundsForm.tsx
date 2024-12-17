@@ -9,19 +9,20 @@ import { selectLoanForm } from '@/redux/loanForm/selectors';
 import { setForm } from '@/redux/loanForm/slice';
 import Button from '@/components/ui/Button';
 import { useAppDispatch } from '@/redux';
+import { EFormStepType } from '@/redux/loanForm/types';
 
 const GiftFundsForm = () => {
   const dispatch = useAppDispatch();
-  const form = useSelector(selectLoanForm);
+  const { giftFunds } = useSelector(selectLoanForm);
 
   const setGiftFunds = (giftFunds: number) => dispatch(setForm({ giftFunds }));
-  const goNext = () => dispatch(fetchSubmitLoanFormStep(form));
+  const goNext = () => dispatch(fetchSubmitLoanFormStep([{ giftFunds }, EFormStepType.gift_funds]));
 
   return (
     <TabContent title="Tell us if you have gift funds you'd like to use twards your purchase?">
       <View className="flex-1">
         <ScrollView contentContainerClassName="gap-4 pb-10">
-          <NumberInputField value={form.giftFunds} onChange={setGiftFunds} decorator="$" />
+          <NumberInputField value={giftFunds} onChange={setGiftFunds} decorator="$" />
         </ScrollView>
       </View>
       <Button title="Continue" handlePress={goNext} />
